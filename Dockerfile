@@ -1,0 +1,11 @@
+FROM python:3.11-slim-bookworm
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY evaluator.py .
+COPY knowledge_base/ ./knowledge_base/
+
+CMD ["python", "-u", "evaluator.py"]
