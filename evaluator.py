@@ -58,26 +58,7 @@ def main():
         run_test_scenario(par_libraries)
         return
 
-    # Heartbeat to Slack to confirm connection
-    print("📡 Sending Final Integration Heartbeat...", flush=True)
-    send_slack_approval("Final Integration Test", "CORE", [{
-        "consultant": "Integration-Bot",
-        "score": 95,
-        "match_reasons": [
-            "Railway web service is ONLINE",
-            "Slack Interactivity is CONFIGURED",
-            "Ready for end-to-end verification"
-        ],
-        "project_jd": "This is a simulated project description for the final integration test. Clicking Approve will generate a real test document.",
-        "top_pars": [
-            {
-                "par_text": "Project A: Successfully implemented a global commercial operating model across 12 markets, improving forecast accuracy by 15%."
-            },
-            {
-                "par_text": "Project B: Led a multi-region ERP transformation, harmonizing data across CRM and finance systems using Databricks."
-            }
-        ]
-    }])
+    print("✅ System ready. Entering production monitoring loop...")
 
     check_count = 0
     while True:
@@ -148,45 +129,12 @@ def main():
             time.sleep(CHECK_INTERVAL)
 
 
-def run_test_scenario(par_libraries):
-    print("🧪 TEST MODE — using sample JD, skipping IMAP\n")
-    test_title = "Interim CFO / Finance Transformation"
-    test_desc  = (
-        "We are looking for a senior finance executive to lead a full finance transformation "
-        "for a mid-market private equity-backed company. Scope includes FP&A redesign, ERP "
-        "selection, building out a high-performing finance team, and board-level reporting. "
-        "6-month engagement, part-time fractional, remote with occasional travel."
-    )
-    print(f"  Title: {test_title}")
-    print(f"  Description: {test_desc[:80]}...\n")
-    evaluations = score_project(test_title, test_desc, par_libraries)
-    if not evaluations:
-        print("❌ Scoring failed")
-        return
-    print("\n  Score summary:")
-    for ev in evaluations:
-        print(f"    {ev['consultant']}: {ev['score']}%")
-    matches = [e for e in evaluations if e["score"] >= MIN_SCORE]
-    if matches:
-        if SEND_TEST_EMAILS:
-            print(f"\n  🎯 {len(matches)} consultant(s) ≥{MIN_SCORE}% — sending test email")
-            send_relevancy_email(test_title, "BTG", matches)
-        else:
-            print(f"\n  🎯 {len(matches)} consultant(s) ≥{MIN_SCORE}% — test mode, email sending disabled")
-    else:
-        print(f"\n  ⏭️  No consultants ≥{MIN_SCORE}% — no email sent")
-    log_evaluation(test_title, "BTG", evaluations)
-    low_relevancy = [e for e in evaluations if e.get("score", 0) < MIN_SCORE]
-    if low_relevancy:
-        log_below_threshold(test_title, "BTG", low_relevancy)
 
 
 if __name__ == "__main__":
     while True:
         try:
             main()
-            if TEST_MODE:
-                break
             print("⚠️  Monitor exited — restarting in 30s...")
             time.sleep(30)
         except KeyboardInterrupt:
