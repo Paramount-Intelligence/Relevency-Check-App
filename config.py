@@ -25,6 +25,8 @@ IMAP_LOOKBACK_DAYS = int(os.getenv("IMAP_LOOKBACK_DAYS", 2))
 MAX_EMAILS_PER_CHECK = int(os.getenv("MAX_EMAILS_PER_CHECK", 5))
 SEND_TEST_EMAILS = os.getenv("SEND_TEST_EMAILS", "false").strip().lower() in ("1", "true", "yes", "y")
 HEARTBEAT_INTERVAL = int(os.getenv("HEARTBEAT_INTERVAL", 10)) # Log heartbeat every X cycles
+SLACK_BOT_TOKEN    = os.getenv("SLACK_BOT_TOKEN")
+SLACK_SIGNING_SECRET = os.getenv("SLACK_SIGNING_SECRET")
 
 TEST_MODE   = "--test"  in sys.argv
 CONSULTANTS = ["Brendi", "Claireee", "Jack", "Richu"]
