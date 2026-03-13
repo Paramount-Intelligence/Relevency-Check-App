@@ -50,7 +50,8 @@ def send_slack_approval(project_title: str, platform: str, matches: list):
         from pymongo import MongoClient
         mongo_uri = os.getenv("MONGO_URI", "mongodb://localhost:27017/")
         db_client = MongoClient(mongo_uri)
-        db = db_client.get_database()  # uses default from URI
+        # Use a specific database name to avoid "No default database" error
+        db = db_client["evaluator_db"] 
         approvals_col = db["pending_approvals"]
         
         for ev in matches:
