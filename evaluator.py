@@ -13,6 +13,7 @@ from db_logger import log_evaluation, log_below_threshold
 
 
 def main():
+    print(">>> EVALUATOR STARTING UP...")
     print("=" * 50)
     print("🎯 Project Relevancy Evaluator")
     print("=" * 50)
