@@ -37,6 +37,15 @@ def main():
         run_test_scenario(par_libraries)
         return
 
+    # Heartbeat to Slack to confirm connection
+    print("📡 Sending Slack heartbeat...")
+    send_slack_approval("System Multi-Module Heartbeat", "CORE", [{
+        "consultant": "System Check",
+        "score": 100,
+        "match_reasons": ["Evaluator started successfully on Railway", "Slack connection established"],
+        "project_jd": "N/A"
+    }])
+
     check_count = 0
     while True:
         try:
